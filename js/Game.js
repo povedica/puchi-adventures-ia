@@ -1,12 +1,16 @@
 import Puchi from './Puchi.js';
+import Ray from './Ray.js';
 
 class Game {
     constructor(canvasId) {
         this.canvas = document.getElementById(canvasId);
+        this.canvas.width = 664;   /// use integer values
+        this.canvas.height = 980;
         this.ctx = this.canvas.getContext('2d');
         this.keys = {ArrowUp: false, ArrowDown: false, ArrowLeft: false, ArrowRight: false};
         this.bindKeyboardEvents();
         this.running = false;
+        this.rays = [];
     }
 
     bindKeyboardEvents() {
@@ -19,6 +23,14 @@ class Game {
         if (['arrowup', 'arrowdown', 'arrowleft', 'arrowright', 'w', 'a', 's', 'd'].includes(key)) {
             this.keys[key] = active_key;
         }
+        if (event.code === 'Space' && this.running) {
+            this.shootRays();
+        }
+    }
+
+    shootRays() {
+        // Crea un nuevo rayo en la posición de Puchi
+        this.rays.push(new Ray(this.ctx, this.puchi.x, this.puchi.y + 20 - this.puchi.height / 2));
     }
 
     loop() {
@@ -55,12 +67,18 @@ class Game {
             this.handlePuchiMovement();
             this.puchi.update();
         }
+        // Actualizar la posición de los rayos
+        this.rays = this.rays.filter(ray => {
+            ray.update();
+            return !ray.offScreen(); // Filtra los rayos que aún están en pantalla
+        });
     }
 
     render() {
         // Clear the canvas and render game objects
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         this.puchi.draw();
+        this.rays.forEach(ray => ray.draw());
     }
 
     handlePuchiMovement() {

@@ -1,10 +1,12 @@
 export default class Puchi {
     constructor(ctx, x, y, spritePath) {
         this.ctx = ctx;
+        this.ctx.imageSmoothingEnabled = true;
+        this.ctx.imageSmoothingQuality = 'high';
         this.x = x;
         this.y = y;
-        this.velocity = { x: 0, y: 0 };
-        this.acceleration = { x: 0, y: 0 };
+        this.velocity = {x: 0, y: 0};
+        this.acceleration = {x: 0, y: 0};
         this.maxSpeed = 5;
         this.accelerationRate = 0.1; // How quickly Puchi speeds up
         this.sprite = new Image();
@@ -16,12 +18,13 @@ export default class Puchi {
             this.height = this.sprite.naturalHeight;
             this.draw();
         };
+        this.loaded = false;
     }
 
     draw() {
-        if (this.loaded) {
-            this.ctx.drawImage(this.sprite, this.x - this.width / 2, this.y - this.height / 2);
-        }
+        if (!this.loaded) return;
+
+        this.ctx.drawImage(this.sprite, this.x - this.width / 2, this.y - this.height / 2, this.width,this.height);
     }
 
     update() {
