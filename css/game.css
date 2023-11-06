@@ -1,0 +1,88 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+#galaxy {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(ellipse at bottom, #1B2735 0%, #090A0F 100%);
+    overflow: hidden;
+}
+
+
+
+.star {
+    position: absolute;
+    background-color: white;
+    border-radius: 50%;
+    z-index: 1;
+}
+
+.shooting-star {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background-color: white;
+    border-radius: 50%;
+    box-shadow: 0 0 4px white, 0 0 12px white;
+    z-index: 2;
+}
+
+/* Estilos base, optimizados para móviles */
+#startButton {
+    padding: 10px 20px;
+    font-size: 16px; /* Tamaño de fuente legible en dispositivos móviles */
+    color: #fff;
+    background-color: #007bff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    outline: none;
+    position: absolute;
+    top: 50%; /* Centrar en la pantalla para móviles */
+    left: 50%;
+    transform: translate(-50%, -50%); /* Centrar precisamente el botón */
+    z-index: 10;
+    transition: background-color 0.3s ease; /* Transición suave para el hover */
+}
+
+#startButton:hover,
+#startButton:focus {
+    background-color: #0056b3; /* Color más oscuro para el hover/focus */
+}
+
+#gameContainer {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+#gameCanvas {
+    display: block; /* Eliminar espacio extra debajo del canvas */
+    width: 100%;
+    height: auto;
+    background: #000; /* Fondo por defecto en caso de que el canvas no cargue */
+}
+
+/* Media queries para tablets */
+@media (min-width: 768px) {
+    #startButton {
+        font-size: 18px; /* Tamaño de fuente más grande para tablets */
+        padding: 15px 30px;
+    }
+}
+
+/* Media queries para desktops */
+@media (min-width: 992px) {
+    #startButton {
+        font-size: 20px; /* Tamaño de fuente aún más grande para desktop */
+        padding: 20px 40px;
+    }
+}
