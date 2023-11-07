@@ -1,5 +1,6 @@
 import Puchi from './Puchi.js';
 import Ray from './Ray.js';
+import Enemy from "./Enemy.js";
 
 class Game {
     constructor(canvasId) {
@@ -11,14 +12,22 @@ class Game {
         this.bindKeyboardEvents();
         this.running = false;
         this.rays = [];
+        this.enemies = [];
+        this.score = 0;
+        this.enemyTimer = 0;
+        this.enemyFrequency = 2000; // New enemy every 2000ms (2 seconds)
+        this.timeSinceStart = 0; // Tiempo total transcurrido desde el inicio del juego
+        this.frequencyDecrementInterval = 15000; // Intervalo para decrementar la frecuencia (15 segundos)
+        this.minEnemyFrequency = 500; // La frecuencia mínima de aparición de enemigos (500 ms)
+        this.lastFrameTime = 0;
     }
 
     bindKeyboardEvents() {
-        window.addEventListener('keydown', (event) => this.handleKeyUpDown(event,true));
-        window.addEventListener('keyup', (event) => this.handleKeyUpDown(event,false));
+        window.addEventListener('keydown', (event) => this.handleKeyUpDown(event, true));
+        window.addEventListener('keyup', (event) => this.handleKeyUpDown(event, false));
     }
 
-    handleKeyUpDown(event,active_key) {
+    handleKeyUpDown(event, active_key) {
         const key = event.key.toLowerCase();
         if (['arrowup', 'arrowdown', 'arrowleft', 'arrowright', 'w', 'a', 's', 'd'].includes(key)) {
             this.keys[key] = active_key;
@@ -50,17 +59,31 @@ class Game {
             position_y,
             'images/puchi-50.png'
         );
-        requestAnimationFrame(() => this.gameLoop());
+        requestAnimationFrame((timestamp) => this.gameLoop(timestamp));
     }
 
-    gameLoop() {
+    gameLoop(timestamp) {
+        // Calculate the time elapsed since the last frame
+        if (0 === this.lastFrameTime) this.lastFrameTime = timestamp;
+        const deltaTime = timestamp - this.lastFrameTime;
+        this.lastFrameTime = timestamp;
+
         if (!this.running) return;
-        this.update();
+        this.update(deltaTime);
         this.render();
-        requestAnimationFrame(() => this.gameLoop());
+        requestAnimationFrame((timestamp) => this.gameLoop(timestamp));
     }
 
-    update() {
+    update(deltaTime) {
+        // Actualiza el tiempo total transcurrido
+        this.timeSinceStart += deltaTime;
+
+        // Ajusta la frecuencia de aparición de enemigos en base al tiempo transcurrido
+        if (this.timeSinceStart > this.frequencyDecrementInterval && this.enemyFrequency > this.minEnemyFrequency) {
+            this.enemyFrequency -= 100; // Decrementa la frecuencia por 100 ms
+            this.timeSinceStart -= this.frequencyDecrementInterval; // Restablece el intervalo de tiempo
+        }
+
         // Actualiza el estado del juego
         if (this.puchi) {
             // Solo actualiza a Puchi si existe
@@ -72,6 +95,42 @@ class Game {
             ray.update();
             return !ray.offScreen(); // Filtra los rayos que aún están en pantalla
         });
+
+        // Actualizar y dibujar enemigos
+        this.enemies.forEach((enemy, index) => {
+            if (enemy.isAlive) {
+                enemy.update();
+            }
+
+            // Comprobar colisión con rayos
+            this.rays.forEach((ray, rayIndex) => {
+                if (enemy.isAlive && ray.x < enemy.x + enemy.width &&
+                    ray.x + ray.width > enemy.x &&
+                    ray.y < enemy.y + enemy.height &&
+                    ray.y + ray.height > enemy.y) {
+                    enemy.hitByRay();
+                    this.rays.splice(rayIndex, 1); // Eliminar el rayo
+                    this.score += 50; // Sumar puntos
+                    enemy.update();
+                }
+            });
+
+            // Comprobar si el enemy alcanza a Puchi
+            if (enemy.isAlive && enemy.x < this.puchi.x + this.puchi.width &&
+                enemy.x + enemy.width > this.puchi.x &&
+                enemy.y < this.puchi.y + this.puchi.height &&
+                enemy.y + enemy.height > this.puchi.y) {
+                this.gameOver();
+            }
+
+            if (!enemy.isAlive || enemy.offScreen()) {
+                // Eliminar enemy si está muerto o fuera de pantalla
+                this.enemies.splice(index, 1);
+            }
+        });
+
+        // Agregar enemigos con cierta lógica, por ejemplo, en intervalos o aleatoriamente
+        this.maybeAddEnemy(deltaTime);
     }
 
     render() {
@@ -79,6 +138,11 @@ class Game {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         this.puchi.draw();
         this.rays.forEach(ray => ray.draw());
+        this.enemies.forEach(enemy => {
+            if (enemy.isAlive) {
+                enemy.draw();
+            }
+        });
     }
 
     handlePuchiMovement() {
@@ -104,7 +168,25 @@ class Game {
         this.puchi.setAcceleration(directionX, directionY);
     }
 
+    gameOver() {
+        // Manejar el fin del juego
+        this.running = false;
+        document.getElementById('startButton').style.display = 'block';
+    }
 
+    maybeAddEnemy(deltaTime) {
+        // Increment the timer with the elapsed time since the last update
+        this.enemyTimer += deltaTime;
+
+        // Check if it's time to add a new enemy
+        if (this.enemyTimer > this.enemyFrequency) {
+            // Add a new enemy at a random Y position
+            const randomY = Math.random() * (this.canvas.height - 50); // 50 is enemy's height
+            this.enemies.push(new Enemy(this.ctx, this.canvas.width, randomY, 'images/enemigo-50.png'));
+            // Reset the timer
+            this.enemyTimer = 0;
+        }
+    }
 }
 
 // Inicializar el juego
