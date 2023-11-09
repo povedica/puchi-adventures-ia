@@ -1,0 +1,8 @@
+- [x] Crear un enemigo
+- [x] Cuando un rayo coincida con la posición de un enemigo, ese enemigo desparece.
+- [ ] Ver el marcador en pantalla.
+- [ ] Cada vez que un enemigo es alcanzado, se suman 50 puntos.
+- [ ] Los enemigos van cogiendo velocidades diferentes.
+- [ ] Los enemigos aparecen por la derecha y desaparecen por la izquierda.
+- [ ] Sólo 3 enemigos pueden desaparecer por la pantalla de la izquierda. Si desaparecen más de 3, es señakl de game over y se reinicia el juego.
+- [ ]  La tecla escape debe sacar un menú con las opciones de seguir y reiniciar.
