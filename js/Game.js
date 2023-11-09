@@ -177,11 +177,13 @@ class Game {
         // Manejar el fin del juego
         this.running = false;
         document.getElementById('startButton').style.display = 'block';
+        this.showGameOver();
     }
 
     resetGame() {
         this.score = 0;
         this.updateScore(this.score);
+        document.getElementById('gameOverContainer').style.display = 'none';
         this.enemyFrequency = 2000; // La frecuencia inicial, ajusta según sea necesario
         this.enemyTimer = 0; // Reinicia el temporizador de aparición de enemigos
         this.enemies = [];
@@ -210,6 +212,12 @@ class Game {
         }
         this.scoreElement.textContent = score_text;
     }
+
+    showGameOver() {
+        // Muestra la imagen de Game Over y el botón de reinicio
+        document.getElementById('gameOverContainer').style.display = 'block';
+        this.running = false; // Detiene el juego
+    }
 }
 
 // Inicializar el juego
@@ -222,3 +230,4 @@ document.addEventListener('DOMContentLoaded', () => {
         game.start();
     });
 });
+

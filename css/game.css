@@ -98,6 +98,37 @@ body, html {
     z-index: 10;
 }
 
-#gameContainer {
-    position: relative;
+#gameOverContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 20;
+}
+
+#gameOverImage {
+    z-index: 1; /* Asegúrate de que la imagen tenga un z-index más bajo que el botón */
+    max-width: 90%; /* Opcional: para asegurarte de que la imagen se ajuste al contenedor si es muy grande */
+    max-height: 90vh; /* Opcional: para asegurarte de que la imagen se ajuste a la altura de la ventana */
+}
+
+#restartButton {
+    padding: 10px 20px;
+    font-size: 16px; /* Tamaño de fuente legible en dispositivos móviles */
+    color: #fff;
+    background-color: #007bff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    outline: none;
+    position: absolute;
+    top: 100%; /* Centrar en la pantalla para móviles */
+    left: 45%;
+    transform: translate(-50%, -50%); /* Centrar precisamente el botón */
+    z-index: 10;
+    transition: background-color 0.3s ease; /* Transición suave para el hover */
 }

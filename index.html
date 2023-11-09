@@ -11,7 +11,11 @@
 <div id="galaxy">
     <div id="gameContainer">
         <canvas id="gameCanvas"></canvas>
-        <button id="startButton">Inicio</button>
+        <div id="gameOverContainer" style="display: none;">
+            <img id="gameOverImage" src="images/game-over-puchi-1.png" alt="Game Over" />
+            <button class="game-button" id="restartButton">Volver a empezar</button>
+        </div>
+        <button class="game-button" id="startButton">Inicio</button>
         <div id="scorePanel">Score: <span id="score"></span></div>
     </div>
 </div>
