@@ -3,6 +3,7 @@ import Ray from './Ray.js';
 import Enemy from "./Enemy.js";
 
 class Game {
+
     constructor(canvasId) {
         this.canvas = document.getElementById(canvasId);
         this.canvas.width = 664;   /// use integer values
@@ -21,6 +22,8 @@ class Game {
         this.frequencyDecrementInterval = 15000; // Intervalo para decrementar la frecuencia (15 segundos)
         this.minEnemyFrequency = 500; // La frecuencia mínima de aparición de enemigos (500 ms)
         this.lastFrameTime = 0;
+        this.KILL_ALIEN_MOUSE_POINTS = 500000;
+        this.ENEMY_REQUENCY = 100;
     }
 
     bindKeyboardEvents() {
@@ -82,7 +85,7 @@ class Game {
 
         // Ajusta la frecuencia de aparición de enemigos en base al tiempo transcurrido
         if (this.timeSinceStart > this.frequencyDecrementInterval && this.enemyFrequency > this.minEnemyFrequency) {
-            this.enemyFrequency -= 100; // Decrementa la frecuencia por 100 ms
+            this.enemyFrequency -= this.ENEMY_REQUENCY; // Decrementa la frecuencia por 100 ms
             this.timeSinceStart -= this.frequencyDecrementInterval; // Restablece el intervalo de tiempo
         }
 
@@ -113,7 +116,7 @@ class Game {
                     enemy.hitByRay();
                     this.rays.splice(rayIndex, 1); // Eliminar el rayo
                     enemy.update();
-                    this.updateScore(50);
+                    this.updateScore(this.KILL_ALIEN_MOUSE_POINTS);
                 }
             });
 
@@ -178,10 +181,11 @@ class Game {
 
     resetGame() {
         this.score = 0;
-        this.scoreElement.textContent = this.score;
+        this.updateScore(this.score);
         this.enemyFrequency = 2000; // La frecuencia inicial, ajusta según sea necesario
         this.enemyTimer = 0; // Reinicia el temporizador de aparición de enemigos
         this.enemies = [];
+        this.rays = [];
     }
 
     maybeAddEnemy(deltaTime) {
@@ -200,13 +204,18 @@ class Game {
 
     updateScore(points) {
         this.score += points; // Añade puntos a la puntuación actual
-        this.scoreElement.textContent = this.score; // Actualiza el marcador en el DOM
+        let score_text = this.score.toString();
+        if (0 < points) {
+            score_text = score_text.replace(/\B(?=(\d{3})+(?!\d))/g, ".")
+        }
+        this.scoreElement.textContent = score_text;
     }
 }
 
 // Inicializar el juego
 document.addEventListener('DOMContentLoaded', () => {
     const game = new Game('gameCanvas');
+    game.resetGame();
     const startButton = document.getElementById('startButton');
     startButton.addEventListener('click', () => {
         startButton.style.display = 'none';
