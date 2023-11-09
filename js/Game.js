@@ -112,7 +112,6 @@ class Game {
                     ray.y + ray.height > enemy.y) {
                     enemy.hitByRay();
                     this.rays.splice(rayIndex, 1); // Eliminar el rayo
-                    this.score += 50; // Sumar puntos
                     enemy.update();
                     this.updateScore(50);
                 }
