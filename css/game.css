@@ -17,7 +17,6 @@ body, html {
 }
 
 
-
 .star {
     position: absolute;
     background-color: white;
@@ -85,4 +84,20 @@ body, html {
         font-size: 20px; /* Tamaño de fuente aún más grande para desktop */
         padding: 20px 40px;
     }
+}
+
+#scorePanel {
+    text-align: center;
+    position: absolute;
+    width: 100%;
+    top: 10px;
+    left: 0;
+    font-family: 'Press Start 2P', cursive; /* Fuente retro, puede que necesites importarla */
+    color: #FFF;
+    font-size: 18px;
+    z-index: 10;
+}
+
+#gameContainer {
+    position: relative;
 }

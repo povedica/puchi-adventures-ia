@@ -5,13 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Galaxy Background</title>
     <link href="css/game.css" rel="stylesheet" media="all">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap">
 </head>
 <body>
 <div id="galaxy">
-<div id="gameContainer">
-    <button id="startButton">Inicio</button>
-    <canvas id="gameCanvas"></canvas>
-</div>
+    <div id="gameContainer">
+        <canvas id="gameCanvas"></canvas>
+        <button id="startButton">Inicio</button>
+        <div id="scorePanel">Score: <span id="score">0</span></div>
+    </div>
 </div>
 <script type="module" src="js/Galaxy.js"></script>
 <script type="module" src="js/Game.js"></script>

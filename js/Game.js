@@ -14,6 +14,7 @@ class Game {
         this.rays = [];
         this.enemies = [];
         this.score = 0;
+        this.scoreElement = document.getElementById('score'); // Obtiene el elemento del DOM para el marcador
         this.enemyTimer = 0;
         this.enemyFrequency = 2000; // New enemy every 2000ms (2 seconds)
         this.timeSinceStart = 0; // Tiempo total transcurrido desde el inicio del juego
@@ -49,6 +50,7 @@ class Game {
     }
 
     start() {
+        this.resetGame();
         this.running = true;
         let position_x = this.canvas.width / 2;
         let position_y = this.canvas.height / 2;
@@ -112,6 +114,7 @@ class Game {
                     this.rays.splice(rayIndex, 1); // Eliminar el rayo
                     this.score += 50; // Sumar puntos
                     enemy.update();
+                    this.updateScore(50);
                 }
             });
 
@@ -174,6 +177,14 @@ class Game {
         document.getElementById('startButton').style.display = 'block';
     }
 
+    resetGame() {
+        this.score = 0;
+        this.scoreElement.textContent = this.score;
+        this.enemyFrequency = 2000; // La frecuencia inicial, ajusta según sea necesario
+        this.enemyTimer = 0; // Reinicia el temporizador de aparición de enemigos
+        this.enemies = [];
+    }
+
     maybeAddEnemy(deltaTime) {
         // Increment the timer with the elapsed time since the last update
         this.enemyTimer += deltaTime;
@@ -186,6 +197,11 @@ class Game {
             // Reset the timer
             this.enemyTimer = 0;
         }
+    }
+
+    updateScore(points) {
+        this.score += points; // Añade puntos a la puntuación actual
+        this.scoreElement.textContent = this.score; // Actualiza el marcador en el DOM
     }
 }
 
