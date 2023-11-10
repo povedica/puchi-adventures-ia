@@ -176,7 +176,6 @@ class Game {
     gameOver() {
         // Manejar el fin del juego
         this.running = false;
-        document.getElementById('startButton').style.display = 'block';
         this.showGameOver();
     }
 
@@ -224,10 +223,12 @@ class Game {
 document.addEventListener('DOMContentLoaded', () => {
     const game = new Game('gameCanvas');
     game.resetGame();
-    const startButton = document.getElementById('startButton');
-    startButton.addEventListener('click', () => {
-        startButton.style.display = 'none';
-        game.start();
+    const start_buttons = document.getElementsByClassName('game-button');
+    Array.from(start_buttons).forEach((button) => {
+        button.addEventListener('click', () => {
+            button.style.display = 'none';
+            game.start();
+        });
     });
 });
 
