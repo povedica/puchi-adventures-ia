@@ -215,6 +215,7 @@ class Game {
     showGameOver() {
         // Muestra la imagen de Game Over y el botón de reinicio
         document.getElementById('gameOverContainer').style.display = 'block';
+        document.getElementById('restartButton').style.display = 'block';
         this.running = false; // Detiene el juego
     }
 }
