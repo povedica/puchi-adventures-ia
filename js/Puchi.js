@@ -8,7 +8,7 @@ export default class Puchi {
         this.velocity = {x: 0, y: 0};
         this.acceleration = {x: 0, y: 0};
         this.maxSpeed = 5;
-        this.accelerationRate = 0.1; // How quickly Puchi speeds up
+        this.accelerationRate = 0.2; // How quickly Puchi speeds up
         this.sprite = new Image();
         this.sprite.src = spritePath;
         this.loaded = false;
@@ -24,7 +24,7 @@ export default class Puchi {
     draw() {
         if (!this.loaded) return;
 
-        this.ctx.drawImage(this.sprite, this.x - this.width / 2, this.y - this.height / 2, this.width,this.height);
+        this.ctx.drawImage(this.sprite, this.x - this.width / 2, this.y - this.height / 2, this.width, this.height);
     }
 
     update() {
@@ -35,8 +35,32 @@ export default class Puchi {
         this.velocity.x = Math.sign(this.velocity.x) * Math.min(Math.abs(this.velocity.x), this.maxSpeed);
         this.velocity.y = Math.sign(this.velocity.y) * Math.min(Math.abs(this.velocity.y), this.maxSpeed);
 
+        // Actualiza la posición de Puchi basada en la velocidad
         this.x += this.velocity.x;
         this.y += this.velocity.y;
+
+        // Restringe a Puchi dentro del canvas
+        this.checkBounds();
+    }
+
+    checkBounds() {
+        // Límite izquierdo
+        if (this.x < 0) {
+            this.x = 0;
+        }
+        // Límite derecho
+        if (this.x + this.width > this.ctx.canvas.width) {
+            this.x = this.ctx.canvas.width - this.width;
+        }
+        // Límite superior
+        console.log(this.y);
+        if (this.y < 0) {
+            this.y = 0;
+        }
+        // Límite inferior
+        if (this.y + this.height > this.ctx.canvas.height) {
+            this.y = this.ctx.canvas.height - this.height;
+        }
     }
 
     setAcceleration(directionX, directionY) {

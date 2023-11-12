@@ -218,13 +218,25 @@ class Game {
         document.getElementById('restartButton').style.display = 'block';
         this.running = false; // Detiene el juego
     }
+
+    resizeCanvas() {
+        const canvas = document.getElementById('gameCanvas');
+        // Establece el ancho del canvas igual al ancho del viewport
+        canvas.width = window.innerWidth;
+
+        // Establece la altura del canvas igual a la altura del viewport
+        canvas.height = window.innerHeight;
+    }
 }
 
 // Inicializar el juego
 document.addEventListener('DOMContentLoaded', () => {
     const game = new Game('gameCanvas');
     game.resetGame();
+    game.resizeCanvas();
     const start_buttons = document.getElementsByClassName('game-button');
+    // Ajusta el tamaño del canvas cuando el usuario cambia el tamaño de la ventana
+    window.addEventListener('resize', game.resizeCanvas);
     Array.from(start_buttons).forEach((button) => {
         button.addEventListener('click', () => {
             button.style.display = 'none';
@@ -232,4 +244,3 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 });
-
