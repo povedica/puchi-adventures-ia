@@ -1,6 +1,7 @@
 import Puchi from './Puchi.js';
 import Ray from './Ray.js';
 import Enemy from "./Enemy.js";
+import Explosion from "./Explosion.js";
 
 class Game {
 
@@ -20,10 +21,11 @@ class Game {
         this.enemyFrequency = 2000; // New enemy every 2000ms (2 seconds)
         this.timeSinceStart = 0; // Tiempo total transcurrido desde el inicio del juego
         this.frequencyDecrementInterval = 15000; // Intervalo para decrementar la frecuencia (15 segundos)
-        this.minEnemyFrequency = 500; // La frecuencia mínima de aparición de enemigos (500 ms)
+        this.minEnemyFrequency = 100; // La frecuencia mínima de aparición de enemigos (500 ms)
         this.lastFrameTime = 0;
         this.KILL_ALIEN_MOUSE_POINTS = 500000;
         this.ENEMY_REQUENCY = 100;
+        this.explosions = [];
     }
 
     bindKeyboardEvents() {
@@ -62,7 +64,7 @@ class Game {
             this.ctx,
             position_x,
             position_y,
-            'images/puchi-50.png'
+            'images/puchi-100.png'
         );
         requestAnimationFrame((timestamp) => this.gameLoop(timestamp));
     }
@@ -70,7 +72,7 @@ class Game {
     gameLoop(timestamp) {
         // Calculate the time elapsed since the last frame
         if (0 === this.lastFrameTime) this.lastFrameTime = timestamp;
-        const deltaTime = timestamp - this.lastFrameTime;
+        const deltaTime = (timestamp - this.lastFrameTime);
         this.lastFrameTime = timestamp;
 
         if (!this.running) return;
@@ -102,19 +104,18 @@ class Game {
         });
 
         // Actualizar y dibujar enemigos
-        this.enemies.forEach((enemy, index) => {
+        this.enemies.forEach((enemy, enemyIndex) => {
             if (enemy.isAlive) {
                 enemy.update();
             }
 
             // Comprobar colisión con rayos
             this.rays.forEach((ray, rayIndex) => {
-                if (enemy.isAlive && ray.x < enemy.x + enemy.width &&
-                    ray.x + ray.width > enemy.x &&
-                    ray.y < enemy.y + enemy.height &&
-                    ray.y + ray.height > enemy.y) {
+                if (this.isColliding(ray, enemy)) {
+                    this.handleRayAlienCollision(ray, enemy);
                     enemy.hitByRay();
-                    this.rays.splice(rayIndex, 1); // Eliminar el rayo
+                    // Elimina el rayo y el enemigo después de la colisión
+                    this.rays.splice(rayIndex, 1);
                     enemy.update();
                     this.updateScore(this.KILL_ALIEN_MOUSE_POINTS);
                 }
@@ -130,12 +131,18 @@ class Game {
 
             if (!enemy.isAlive || enemy.offScreen()) {
                 // Eliminar enemy si está muerto o fuera de pantalla
-                this.enemies.splice(index, 1);
+                this.enemies.splice(enemyIndex, 1);
             }
         });
 
         // Agregar enemigos con cierta lógica, por ejemplo, en intervalos o aleatoriamente
         this.maybeAddEnemy(deltaTime);
+
+        // Actualiza las explosiones
+        this.explosions = this.explosions.filter(explosion => {
+            explosion.update(deltaTime);
+            return explosion.isAlive();
+        });
     }
 
     render() {
@@ -148,6 +155,10 @@ class Game {
                 enemy.draw();
             }
         });
+
+        if (this.explosions.length > 0) {
+            this.explosions.forEach(explosion => explosion.draw());
+        }
     }
 
     handlePuchiMovement() {
@@ -171,6 +182,13 @@ class Game {
 
         // Update acceleration based on the keys pressed
         this.puchi.setAcceleration(directionX, directionY);
+    }
+
+    isColliding(ray, enemy) {
+        return enemy.isAlive && ray.x < enemy.x + enemy.width &&
+            ray.x + ray.width > enemy.x &&
+            ray.y < enemy.y + enemy.height &&
+            ray.y + ray.height > enemy.y;
     }
 
     gameOver() {
@@ -226,6 +244,11 @@ class Game {
 
         // Establece la altura del canvas igual a la altura del viewport
         canvas.height = window.innerHeight;
+    }
+
+    // Método para manejar la colisión rayo-alienígena
+    handleRayAlienCollision(ray, enemy) {
+        this.explosions.push(new Explosion(this.ctx, enemy.x, enemy.y));
     }
 }
 
