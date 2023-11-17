@@ -19,6 +19,16 @@ export default class Puchi {
             this.draw();
         };
         this.loaded = false;
+        this.shotsLeft = 50; // Puchi comienza con 50 disparos
+    }
+
+    // Método para disparar
+    shoot() {
+        if (this.shotsLeft == 0) return;
+
+        this.shotsLeft--;
+        // Lógica para disparar un rayo...
+        return true; // Disparo exitoso
     }
 
     draw() {

@@ -132,3 +132,14 @@ body, html {
     z-index: 10;
     transition: background-color 0.3s ease; /* Transición suave para el hover */
 }
+
+#shotsLeft {
+    position: absolute; /* Posición absoluta dentro del contenedor del juego */
+    top: 10px; /* Espacio desde la parte superior del contenedor */
+    left: 10px; /* Espacio desde la parte izquierda del contenedor */
+    color: white; /* Color del texto, elige uno que contraste con tu fondo */
+    font-family: Arial, sans-serif; /* Fuente del texto */
+    font-size: 18px; /* Tamaño del texto */
+    z-index: 10; /* Asegura que se muestre sobre otros elementos si es necesario */
+    font-family: 'Press Start 2P', cursive; /* Fuente retro, puede que necesites importarla */
+}

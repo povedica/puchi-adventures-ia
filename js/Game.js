@@ -43,11 +43,6 @@ class Game {
         }
     }
 
-    shootRays() {
-        // Crea un nuevo rayo en la posición de Puchi
-        this.rays.push(new Ray(this.ctx, this.puchi.x, this.puchi.y + 20 - this.puchi.height / 2));
-    }
-
     loop() {
         requestAnimationFrame(() => this.loop());
         this.update();
@@ -66,6 +61,7 @@ class Game {
             position_y,
             'images/puchi-100.png'
         );
+        this.updateShotsLeftDisplay(); // Actualiza el marcador de disparos
         requestAnimationFrame((timestamp) => this.gameLoop(timestamp));
     }
 
@@ -249,6 +245,17 @@ class Game {
     // Método para manejar la colisión rayo-alienígena
     handleRayAlienCollision(ray, enemy) {
         this.explosions.push(new Explosion(this.ctx, enemy.x, enemy.y));
+    }
+
+    updateShotsLeftDisplay() {
+        document.getElementById('shotsLeftCount').textContent = this.puchi.shotsLeft;
+    }
+
+    shootRays() {
+        if (this.puchi.shoot()) {
+            this.rays.push(new Ray(this.ctx, this.puchi.x, this.puchi.y + 20 - this.puchi.height / 2));
+            this.updateShotsLeftDisplay();
+        }
     }
 }
 
