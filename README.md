@@ -16,6 +16,8 @@ No clean code applies here, neither solid principles and no any good principles,
 - [Contribution](#contribution)
 - [Getting Started](#getting-started)
 - [Acknowledgments](#acknowledgments)
+- [Technical Setup and Running the Game](#technical-setup-and-running-the-game)
+- [TODO log](#todo-log)
 
 
 ## About the Game
