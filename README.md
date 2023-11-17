@@ -2,6 +2,9 @@
 
 Welcome to the repository of "Space Adventures of Puchi," an engaging and innovative JavaScript game entirely conceptualized and developed with the assistance of an AI, specifically OpenAI's ChatGPT-4. This project represents a unique collaboration between human creativity and advanced AI technology, leading to a game that's both fun to play and fascinating in its development process.
 
+#### **Disclaimer:**
+No clean code applies here, neither solid principles and no any good principles, just prompts, chat gpt, copy, paste, play, adapt, fix, new feature and repeat.
+
 ## Table of Contents
 - [About the Game](#about-the-game)
 - [AI-Powered Development](#ai-powered-development)
