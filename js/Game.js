@@ -217,12 +217,20 @@ class Game {
 
     resetGame() {
         this.score = 0;
+        // Limpiar los power-ups existentes
+        this.powerUps = [];
         this.updateScore(this.score);
         document.getElementById('gameOverContainer').style.display = 'none';
         this.enemyFrequency = 2000; // La frecuencia inicial, ajusta según sea necesario
         this.enemyTimer = 0; // Reinicia el temporizador de aparición de enemigos
         this.enemies = [];
         this.rays = [];
+
+        // No olvides reiniciar la cantidad de disparos de Puchi y actualizar la interfaz
+        if (this.puchi) {
+            this.puchi.shotsLeft = 50; // Reinicia los disparos de Puchi
+            this.updateShotsLeftDisplay(); // Actualiza el marcador de disparos
+        }
     }
 
     maybeAddEnemy(deltaTime) {
