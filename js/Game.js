@@ -2,6 +2,7 @@ import Puchi from './Puchi.js';
 import Ray from './Ray.js';
 import Enemy from "./Enemy.js";
 import Explosion from "./Explosion.js";
+import AmmoPowerUp from "./PowerUps/AmmoPowerUp.js";
 
 class Game {
 
@@ -26,6 +27,9 @@ class Game {
         this.KILL_ALIEN_MOUSE_POINTS = 500000;
         this.ENEMY_REQUENCY = 100;
         this.explosions = [];
+        this.powerUps = []; // Almacenar los power-ups
+        this.powerUpTimer = 0;
+        this.powerUpFrequency = 10000; // 10 segundos, ajusta según sea necesario
     }
 
     bindKeyboardEvents() {
@@ -129,6 +133,7 @@ class Game {
                 // Eliminar enemy si está muerto o fuera de pantalla
                 this.enemies.splice(enemyIndex, 1);
             }
+
         });
 
         // Agregar enemigos con cierta lógica, por ejemplo, en intervalos o aleatoriamente
@@ -139,6 +144,20 @@ class Game {
             explosion.update(deltaTime);
             return explosion.isAlive();
         });
+
+        this.powerUps.forEach((powerUp, index) => {
+            if (powerUp.collectedBy(this.puchi)) {
+                powerUp.activate(this.puchi); // Activa el PowerUp
+                this.powerUps.splice(index, 1); // Elimina el PowerUp después de ser recogido
+                this.updateShotsLeftDisplay(); // Actualiza si es necesario
+            }
+        });
+
+        this.powerUpTimer += deltaTime;
+        if (this.powerUpTimer > this.powerUpFrequency) {
+            this.addPowerUp();
+            this.powerUpTimer = 0; // Resetear el temporizador
+        }
     }
 
     render() {
@@ -155,6 +174,9 @@ class Game {
         if (this.explosions.length > 0) {
             this.explosions.forEach(explosion => explosion.draw());
         }
+
+        // Dibuja los power-ups
+        this.powerUps.forEach(powerUp => powerUp.draw());
     }
 
     handlePuchiMovement() {
@@ -256,6 +278,22 @@ class Game {
             this.rays.push(new Ray(this.ctx, this.puchi.x, this.puchi.y + 20 - this.puchi.height / 2));
             this.updateShotsLeftDisplay();
         }
+    }
+
+    handlePowerUpCollection(powerUp) {
+        // Maneja la recogida del power-up
+        if (powerUp.type === 'ammo') {
+            this.puchi.shotsLeft += 50; // Recarga 50 disparos
+            this.updateShotsLeftDisplay(); // Actualiza el marcador de disparos
+        }
+        // Puedes agregar más tipos de power-ups aquí
+    }
+
+    // Método para añadir un power-up al juego
+    addPowerUp() {
+        const x = Math.random() * (this.canvas.width - 30);
+        const y = Math.random() * (this.canvas.height - 30);
+        this.powerUps.push(new AmmoPowerUp(this.ctx, x, y));
     }
 }
 

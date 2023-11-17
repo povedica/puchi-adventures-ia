@@ -63,7 +63,6 @@ export default class Puchi {
             this.x = this.ctx.canvas.width - this.width;
         }
         // Límite superior
-        console.log(this.y);
         if (this.y < 0) {
             this.y = 0;
         }
