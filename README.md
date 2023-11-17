@@ -2,13 +2,23 @@
 
 Welcome to the repository of "Space Adventures of Puchi," an engaging and innovative JavaScript game entirely conceptualized and developed with the assistance of an AI, specifically OpenAI's ChatGPT-4. This project represents a unique collaboration between human creativity and advanced AI technology, leading to a game that's both fun to play and fascinating in its development process.
 
+## Table of Contents
+- [About the Game](#about-the-game)
+- [AI-Powered Development](#ai-powered-development)
+- [Key Features](#key-features)
+- [Tech Stack](#tech-stack)
+- [Contribution](#contribution)
+- [Getting Started](#getting-started)
+- [Acknowledgments](#acknowledgments)
+
+
 ## About the Game
 
 "Puchi's adventures" is a captivating retro-themed game set in the vast expanse of the cosmos. Players guide Puchi, an adorable hamster, through challenges, collecting stars and dodging obstacles in an enchanting pixel-art universe. The game features a blend of classic arcade mechanics and modern gameplay elements, creating an experience that's both nostalgic and refreshingly new.
 
 ## AI-Powered Development
 
-Every aspect of this game, from the initial concept to the intricate coding details, has been generated through conversations with OpenAI's ChatGPT-4. This groundbreaking approach to game development allowed for rapid prototyping, creative problem-solving, and the integration of complex game mechanics without the traditional barriers often encountered in the development process.
+Every aspect of this game, from the initial concept to the intricate coding details and images, has been generated through conversations with OpenAI's ChatGPT-4. This groundbreaking approach to game development allowed for rapid prototyping, creative problem-solving, and the integration of complex game mechanics without the traditional barriers often encountered in the development process.
 
 ### Key Features:
 
