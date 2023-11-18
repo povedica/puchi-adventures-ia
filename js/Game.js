@@ -62,8 +62,7 @@ class Game {
         this.puchi = new Puchi(
             this.ctx,
             position_x,
-            position_y,
-            'images/puchi-100.png'
+            position_y
         );
         this.updateShotsLeftDisplay(); // Actualiza el marcador de disparos
         requestAnimationFrame((timestamp) => this.gameLoop(timestamp));
@@ -95,7 +94,7 @@ class Game {
         if (this.puchi) {
             // Solo actualiza a Puchi si existe
             this.handlePuchiMovement();
-            this.puchi.update();
+            this.puchi.update(deltaTime);
         }
         // Actualizar la posición de los rayos
         this.rays = this.rays.filter(ray => {
@@ -147,7 +146,7 @@ class Game {
 
         this.powerUps.forEach((powerUp, index) => {
             if (powerUp.collectedBy(this.puchi)) {
-                powerUp.activate(this.puchi); // Activa el PowerUp
+                powerUp.handlePowerUp(this.puchi); // Activa el PowerUp
                 this.powerUps.splice(index, 1); // Elimina el PowerUp después de ser recogido
                 this.updateShotsLeftDisplay(); // Actualiza si es necesario
             }
@@ -283,18 +282,10 @@ class Game {
 
     shootRays() {
         if (this.puchi.shoot()) {
-            this.rays.push(new Ray(this.ctx, this.puchi.x, this.puchi.y + 20 - this.puchi.height / 2));
+            const rayOrigin = this.puchi.getRayOrigin();
+            this.rays.push(new Ray(this.ctx, this.puchi.x + 70, this.puchi.y + 150 - this.puchi.height / 2));
             this.updateShotsLeftDisplay();
         }
-    }
-
-    handlePowerUpCollection(powerUp) {
-        // Maneja la recogida del power-up
-        if (powerUp.type === 'ammo') {
-            this.puchi.shotsLeft += 50; // Recarga 50 disparos
-            this.updateShotsLeftDisplay(); // Actualiza el marcador de disparos
-        }
-        // Puedes agregar más tipos de power-ups aquí
     }
 
     // Método para añadir un power-up al juego
@@ -303,6 +294,7 @@ class Game {
         const y = Math.random() * (this.canvas.height - 30);
         this.powerUps.push(new AmmoPowerUp(this.ctx, x, y));
     }
+
 }
 
 // Inicializar el juego

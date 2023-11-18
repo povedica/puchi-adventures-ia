@@ -16,7 +16,20 @@ export default class AmmoPowerUp extends PowerUp {
         }
     }
 
-    activate(puchi) {
-        puchi.shotsLeft += 50; // Recarga 50 disparos
+    handlePowerUp(puchi) {
+        // Aquí manejas lo que sucede cuando Puchi recolecta un power-up
+        puchi.shotsLeft += 50; // Recarga los disparos
+        puchi.startFlash(); // Inicia el efecto de destello en Puchi
+        this.startFlashOnShotsLeftDisplay(puchi); // Inicia el efecto de destello en el marcador de disparos
+    }
+
+    startFlashOnShotsLeftDisplay(puchi) {
+        const shotsLeftDisplay = document.getElementById('shotsLeftCount');
+        shotsLeftDisplay.classList.add('flash'); // Añade una clase que define el efecto de destello
+
+        // Elimina la clase después de la duración del destello
+        setTimeout(() => {
+            shotsLeftDisplay.classList.remove('flash');
+        }, puchi.flashDuration);
     }
 }

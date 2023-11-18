@@ -143,3 +143,11 @@ body, html {
     z-index: 10; /* Asegura que se muestre sobre otros elementos si es necesario */
     font-family: 'Press Start 2P', cursive; /* Fuente retro, puede que necesites importarla */
 }
+
+.flash {
+    animation: flashAnimation 0.5s;
+}
+
+@keyframes flashAnimation {
+    50% { color: yellow; } /* o cualquier otro efecto visual deseado */
+}

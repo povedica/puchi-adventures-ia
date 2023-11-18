@@ -1,5 +1,5 @@
 export default class Puchi {
-    constructor(ctx, x, y, spritePath) {
+    constructor(ctx, x, y) {
         this.ctx = ctx;
         this.ctx.imageSmoothingEnabled = true;
         this.ctx.imageSmoothingQuality = 'high';
@@ -9,17 +9,23 @@ export default class Puchi {
         this.acceleration = {x: 0, y: 0};
         this.maxSpeed = 5;
         this.accelerationRate = 0.2; // How quickly Puchi speeds up
-        this.sprite = new Image();
-        this.sprite.src = spritePath;
+        this.spriteNatural = new Image();
+        this.spriteNatural.src = 'images/puchi-retro-150.png';
+        this.spriteWhenFlashing = new Image();
+        this.spriteWhenFlashing.src = 'images/puchi-ammo-powerup-150.png';
         this.loaded = false;
-        this.sprite.onload = () => {
+        this.spriteNatural.onload = () => {
             this.loaded = true;
-            this.width = this.sprite.naturalWidth;
-            this.height = this.sprite.naturalHeight;
+            this.width = this.spriteNatural.naturalWidth;
+            this.height = this.spriteNatural.naturalHeight;
             this.draw();
         };
         this.loaded = false;
         this.shotsLeft = 50; // Puchi comienza con 50 disparos
+        //Effect when getting an Ammo PowerUp
+        this.isFlashing = false;
+        this.flashDuration = 500; // Duración del destello en milisegundos
+        this.flashTimer = 0;
     }
 
     // Método para disparar
@@ -34,10 +40,11 @@ export default class Puchi {
     draw() {
         if (!this.loaded) return;
 
-        this.ctx.drawImage(this.sprite, this.x - this.width / 2, this.y - this.height / 2, this.width, this.height);
+        let imgToDraw = this.isFlashing && this.spriteWhenFlashing.complete ? this.spriteWhenFlashing : this.spriteNatural;
+        this.ctx.drawImage(imgToDraw, this.x, this.y, this.width, this.height);
     }
 
-    update() {
+    update(deltaTime) {
         // Increase velocity based on acceleration, but clamp it at maxSpeed
         this.velocity.x += this.acceleration.x;
         this.velocity.y += this.acceleration.y;
@@ -51,6 +58,14 @@ export default class Puchi {
 
         // Restringe a Puchi dentro del canvas
         this.checkBounds();
+
+        // ...actualizaciones existentes...
+        if (this.isFlashing) {
+            this.flashTimer += deltaTime;
+            if (this.flashTimer > this.flashDuration) {
+                this.isFlashing = false;
+            }
+        }
     }
 
     checkBounds() {
@@ -75,5 +90,20 @@ export default class Puchi {
     setAcceleration(directionX, directionY) {
         this.acceleration.x = directionX * this.accelerationRate;
         this.acceleration.y = directionY * this.accelerationRate;
+    }
+
+    // Método para iniciar el destello
+    startFlash() {
+        this.isFlashing = true;
+        this.flashTimer = 0;
+    }
+
+    getRayOrigin() {
+        // Calcula el origen del rayo basándose en la imagen actual de Puchi
+        const currentImage = this.isFlashing && this.spriteWhenFlashing.complete ? this.spriteWhenFlashing : this.spriteNatural;
+        return {
+            x: this.x + currentImage.width / 2,
+            y: this.y + currentImage.height / 2
+        };
     }
 }
