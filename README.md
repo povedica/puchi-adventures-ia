@@ -8,6 +8,8 @@ Welcome to the repository of "Space Adventures of Puchi," an engaging and innova
 #### **Disclaimer:**
 No clean code applies here, neither solid principles and no any good principles, just prompts, chat gpt, copy, paste, play, adapt, fix, new feature and repeat.
 
+**Just fun!** 🤘
+
 ## Table of Contents
 - [About the Game](#about-the-game)
 - [AI-Powered Development](#ai-powered-development)
