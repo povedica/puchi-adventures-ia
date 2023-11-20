@@ -284,7 +284,7 @@ class Game {
     shootRays() {
         if (this.puchi.shoot()) {
             const rayOrigin = this.puchi.getRayOrigin();
-            this.rays.push(new Ray(this.ctx, this.puchi.x + 70, this.puchi.y + 150 - this.puchi.height / 2));
+            this.rays.push(new Ray(this.ctx, this.puchi.x + (this.puchi.spriteNatural.naturalWidth / 2), this.puchi.y + (this.puchi.spriteNatural.naturalHeight / 2)));
             this.updateShotsLeftDisplay();
         }
     }

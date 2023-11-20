@@ -41,7 +41,7 @@ export default class Puchi {
         if (!this.loaded) return;
 
         let imgToDraw = this.isFlashing && this.spriteWhenFlashing.complete ? this.spriteWhenFlashing : this.spriteNatural;
-        this.ctx.drawImage(imgToDraw, this.x, this.y, this.width, this.height);
+        this.ctx.drawImage(imgToDraw, this.x, this.y, imgToDraw.width, imgToDraw.height);
 
         if (window.gameConfig.debugMode) {
             this.ctx.strokeStyle = 'green'; // Elige un color que destaque
