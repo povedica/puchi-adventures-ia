@@ -1,3 +1,4 @@
+import Galaxy from './Galaxy.js';
 import Puchi from './Puchi.js';
 import Ray from './Ray.js';
 import Enemy from "./Enemy.js";
@@ -240,7 +241,7 @@ class Game {
         if (this.enemyTimer > this.enemyFrequency) {
             // Add a new enemy at a random Y position
             const randomY = Math.random() * (this.canvas.height - 50); // 50 is enemy's height
-            this.enemies.push(new Enemy(this.ctx, this.canvas.width, randomY, 'images/enemigo-50.png'));
+            this.enemies.push(new Enemy(this.ctx, this.canvas.width, randomY));
             // Reset the timer
             this.enemyTimer = 0;
         }
@@ -299,6 +300,7 @@ class Game {
 
 // Inicializar el juego
 document.addEventListener('DOMContentLoaded', () => {
+    new Galaxy('galaxy');
     const game = new Game('gameCanvas');
     game.resetGame();
     game.resizeCanvas();

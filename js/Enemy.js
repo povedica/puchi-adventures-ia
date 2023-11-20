@@ -1,11 +1,11 @@
 // Enemigo.js
 export default class Enemy {
-    constructor(ctx, canvasWidth, canvasHeight, spritePath) {
+    constructor(ctx, canvasWidth, canvasHeight) {
         this.ctx = ctx;
         this.canvasWidth = canvasWidth;
         this.canvasHeight = canvasHeight;
-        this.sprite = new Image();
-        this.sprite.src = spritePath;
+        this.ctx.imageSmoothingEnabled = true;
+        this.ctx.imageSmoothingQuality = 'high';
         this.width = 50; // Asume un ancho predeterminado, ajusta según el tamaño de tu sprite
         this.height = 50; // Asume una altura predeterminada, ajusta según el tamaño de tu sprite
         this.x = canvasWidth; // Empieza en el borde derecho del canvas
@@ -14,7 +14,7 @@ export default class Enemy {
         this.speedY = (Math.random() - 0.5) * 2; // Velocidad vertical aleatoria
         this.isAlive = false;
         this.sprite = new Image();
-        this.sprite.src = spritePath;
+        this.sprite.src = 'images/enemy-2-100.png';
         this.sprite.onload = () => {
             this.isAlive = true;
             this.width = this.sprite.naturalWidth;
@@ -38,8 +38,14 @@ export default class Enemy {
         if (!this.isAlive) return;
 
         // Dibuja el sprite del enemigo si está vivo
-        //this.ctx.drawImage(this.sprite, this.x, this.y, this.width, this.height);
-        this.ctx.drawImage(this.sprite, this.x - this.width / 2, this.y - this.height / 2, this.width, this.height);
+        this.ctx.drawImage(this.sprite, this.x, this.y, this.width, this.height);
+        //this.ctx.drawImage(this.sprite, this.x - this.width / 2, this.y - this.height / 2, this.width, this.height);
+
+        if (window.gameConfig.debugMode) {
+            // Dibuja un borde alrededor del enemigo para visualizar su área de colisión
+            this.ctx.strokeStyle = 'red'; // Elige un color que destaque
+            this.ctx.strokeRect(this.x, this.y, this.width, this.height);
+        }
     }
 
     hitByRay() {
