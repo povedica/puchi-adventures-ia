@@ -150,7 +150,10 @@ class Game {
                 powerUp.handlePowerUp(this.puchi); // Activa el PowerUp
                 this.powerUps.splice(index, 1); // Elimina el PowerUp después de ser recogido
                 this.updateShotsLeftDisplay(); // Actualiza si es necesario
+                powerUp.toBeRemoved = true;
             }
+
+            powerUp.update(deltaTime);
         });
 
         this.powerUpTimer += deltaTime;
@@ -158,6 +161,9 @@ class Game {
             this.addPowerUp();
             this.powerUpTimer = 0; // Resetear el temporizador
         }
+
+        // Filtrar los powerUps para eliminar los que han sido recogidos o deben ser eliminados
+        this.powerUps = this.powerUps.filter(powerUp => !powerUp.toBeRemoved);
     }
 
     render() {
