@@ -14,12 +14,31 @@
         <canvas id="gameCanvas" width="100%" height="100%"></canvas>
         <div id="gameOverContainer" style="display: none;">
             <img id="gameOverImage" src="images/game-over-puchi.png" alt="Game Over"/>
-            <button class="game-button" id="restartButton">Volver a empezar</button>
+            <button class="game-button game-blue-button" id="restartButton">Volver a empezar</button>
         </div>
-        <button class="game-button" id="startButton">Inicio</button>
+        <button class="game-button game-blue-button center-button" id="startButton">Inicio</button>
         <div id="scorePanel">Score: <span id="score"></span></div>
     </div>
 </div>
+<!-- Enlace en el Popup de Cookies -->
+<div class="cookie-consent-popup" id="cookieConsentPopup">
+    Oh, ¡qué sorpresa! Como otros mil millones de sitios web, también tenemos que poner este bannercito acerca de las cookies que uso. Estas pequeñas migajas digitales 'mejoran' tu navegación, lo que básicamente significa que seguimos tu rastro como un detective aficionado. Pero tranquilo, de momento, no usamos cookies, nein, null, zero cookies. Si sigues usando este sitio, asumiremos que estás encantado con nuestra magnífica
+    <a href="#" onclick="openModal()">política de cookies</a>. ¡Suerte con la puntuación, disfruta!. Por supuesto, este texto también lo creó ChatGPT.
+    <p></p>
+    <button class="game-blue-button" onclick="acceptCookies()">Aceptar</button>
+    <button class="game-blue-button" onclick="rejectCookies()">Rechazar</button>
+</div>
+
+<!-- Modal de Política de Cookies -->
+<div id="cookiePolicyModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times; (cerrar)</span>
+        <div id="cookiePolicyContent">
+            <!-- El contenido del fichero se cargará aquí -->
+        </div>
+    </div>
+</div>
+<script async type="application/javascript" src="js/CookieLegal.js"></script>
 <script type="application/javascript" src="js/GameConfig.js"></script>
 <script type="module" src="js/Game.js"></script>
 </body>
