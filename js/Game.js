@@ -4,8 +4,9 @@ import Ray from './Ray.js';
 import Enemy from "./Enemy.js";
 import Explosion from "./Explosion.js";
 import AmmoPowerUp from "./PowerUps/AmmoPowerUp.js";
+import {updateRanking} from './Services/Ranking.js';
 
-class Game {
+export default class Game {
 
     constructor(canvasId) {
         this.canvas = document.getElementById(canvasId);
@@ -219,6 +220,7 @@ class Game {
         // Manejar el fin del juego
         this.running = false;
         this.showGameOver();
+        this.showRankingScore();
     }
 
     resetGame() {
@@ -265,6 +267,7 @@ class Game {
     showGameOver() {
         // Muestra la imagen de Game Over y el botón de reinicio
         document.getElementById('gameOverContainer').style.display = 'block';
+        document.getElementById('playerInitials').focus();
         document.getElementById('restartButton').style.display = 'block';
         this.running = false; // Detiene el juego
     }
@@ -302,12 +305,21 @@ class Game {
         this.powerUps.push(new AmmoPowerUp(this.ctx, x, y));
     }
 
+    // ...
+    showRankingScore() {
+        let game = this;
+        updateRanking(game);
+    }
+
+    getCurrentScore() {
+        return this.score;
+    }
 }
 
 // Inicializar el juego
+const game = new Game('gameCanvas');
 document.addEventListener('DOMContentLoaded', () => {
     new Galaxy('galaxy');
-    const game = new Game('gameCanvas');
     game.resetGame();
     game.resizeCanvas();
     const start_buttons = document.getElementsByClassName('game-button');

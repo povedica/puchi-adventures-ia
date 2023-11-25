@@ -129,7 +129,7 @@ body, html {
     cursor: pointer;
     outline: none;
     position: absolute;
-    top: 100%; /* Centrar en la pantalla para móviles */
+    /*top: 100%; !* Centrar en la pantalla para móviles *!*/
     left: 45%;
     transform: translate(-50%, -50%); /* Centrar precisamente el botón */
     z-index: 10;
@@ -243,4 +243,66 @@ body, html {
 
 .legal-text li {
     margin-bottom: 10px;
+}
+
+
+.modal {
+    /* Estilos existentes para el modal */
+}
+
+.modal h2, .modal h3 {
+    font-family: 'Press Start 2P', cursive; /* Ejemplo de fuente estilo retro */
+}
+
+#playerInitials {
+    background-color: transparent; /* Fondo transparente */
+    color: white; /* Texto en color blanco */
+    border: none; /* Sin borde */
+    outline: none; /* Eliminar el outline que aparece al hacer foco */
+    font-size: 50px; /* Tamaño de fuente grande */
+    text-align: center; /* Centrar texto */
+    font-family: 'Press Start 2P', cursive; /* Fuente estilo arcade, asegúrate de cargarla */
+    width: 100%; /* Ancho completo para ocupar el espacio disponible */
+    max-width: 400px; /* Máximo ancho que puede tener */
+    margin: 0 auto; /* Margen automático para centrar el input */
+}
+
+#saveScoreButton {
+    background-color: transparent; /* Fondo transparente */
+    color: white; /* Texto en color blanco */
+    border: 2px solid white; /* Borde blanco para el botón */
+    font-family: 'Press Start 2P', cursive; /* Fuente estilo arcade */
+    font-size: 20px; /* Tamaño de fuente adecuado para el botón */
+    padding: 10px 20px; /* Padding para hacer el botón más grande */
+    cursor: pointer; /* Cambiar el cursor a pointer para indicar que es clickeable */
+    outline: none; /* Eliminar el outline que aparece al hacer foco */
+    margin-top: 20px; /* Espacio arriba del botón */
+}
+
+#scoreList {
+    max-height: 400px; /* O la altura que prefieras */
+    overflow-y: auto; /* Muestra un scrollbar si es necesario */
+    padding: 0; /* Remueve el padding por defecto */
+    list-style: none; /* Opcional: remueve los estilos por defecto de lista */
+    width: 100%; /* Ajusta el ancho según necesites */
+    box-sizing: border-box;
+}
+
+#scoreList li {
+    color: #FFFFFF;
+    font-family: 'Press Start 2P';
+    font-size: 50px;
+    padding: 5px 10px; /* Añade padding para cada entrada */
+    border-bottom: 1px solid #ccc; /* Opcional: añade una línea entre entradas */
+}
+
+.p-white-start-p2 {
+    font-size: 20px;
+    color: #FFFFFF;
+    font-family: 'Press Start 2P';
+    font-size: 30px;
+    color: white;
+    font-family: 'Press Start 2P';
+    margin-left: 10%;
+    padding-top: 10%;
 }
